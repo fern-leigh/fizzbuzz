@@ -10,13 +10,13 @@ export default function Home() {
   const [upperValue, setUpperValue] = useState(25);
   const [fizzBuzz, setFizzBuzz] = useState(false );
 
-  const onSliderInput = (element: Array<number>, event: Event) => {
+  const onSliderInput = (element: Array<number>) => {
     setLowerValue(element[0]);
     setUpperValue(element[1]);
   }
 
-  const onStepInput = (event: Event | null) => {
-    if (event && event.target) { setStep(event.target.value) };
+  const onStepInput = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (event && event.target) { setStep(parseInt(event.target.value)) };
   }
 
   function fizzBuzzIt(arr: Array<number>) {
