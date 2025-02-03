@@ -20,7 +20,7 @@ export default function Home() {
   }
 
   function fizzBuzzIt(arr: Array<number>) {
-    let results: Array<String> = [];
+    const results: Array<string> = [];
     arr.forEach((i: number) => {
       if (i % 5 == 0 && i % 3 == 0) {
         results.push('FizzBuzz')
@@ -36,7 +36,13 @@ export default function Home() {
   }
 
   function toggleFizzBuzz(){
-    fizzBuzz? setFizzBuzz(false) : setFizzBuzz(true);
+    switch(fizzBuzz) {
+      case false: setFizzBuzz(true);
+      break;
+      case true: setFizzBuzz(false);
+      break;
+      default:console.log('FizzBuzz neither true nor false')
+    } 
   }
 
   function resetAll(){
