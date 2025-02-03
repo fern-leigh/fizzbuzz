@@ -58,7 +58,7 @@ export default function Home() {
       <header>
         <div className="logo">
           <Image
-            src="/logo2.png"
+            src="fizzbuzz/logo2.png"
             alt="logo that says fizz-buzz in colored letters"
             fill
 
