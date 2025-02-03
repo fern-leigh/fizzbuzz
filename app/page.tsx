@@ -1,94 +1,137 @@
+'use client';
 import Image from "next/image";
-import styles from "./page.module.css";
+import { useState } from "react";
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [step, setStep] = useState(1);
+  const [lowerValue, setLowerValue] = useState(1);
+  const [upperValue, setUpperValue] = useState(25);
+  const [fizzBuzz, setFizzBuzz] = useState(false );
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const onSliderInput = (element: Array<number>, event: Event) => {
+    setLowerValue(element[0]);
+    setUpperValue(element[1]);
+  }
+
+  const onStepInput = (event: Event | null) => {
+    if (event && event.target) { setStep(event.target.value) };
+  }
+
+  function fizzBuzzIt(arr: Array<number>) {
+    let results: Array<String> = [];
+    arr.forEach((i: number) => {
+      if (i % 5 == 0 && i % 3 == 0) {
+        results.push('FizzBuzz')
+      } else if (i % 5 == 0) {
+        results.push('Buzz')
+      } else if (i % 3 == 0) {
+        results.push('Fizz')
+      } else {
+        results.push(i.toString())
+      }
+    })
+    return results.join(", ")
+  }
+
+  function toggleFizzBuzz(){
+    fizzBuzz? setFizzBuzz(false) : setFizzBuzz(true);
+  }
+
+  function resetAll(){
+    setFizzBuzz(false);
+    setLowerValue(1);
+    setUpperValue(25);
+    setStep(1);
+    
+  }
+
+  return (
+    <div className="page">
+      <header>
+        <div className="logo">
+          <Image
+            src="/logo2.png"
+            alt="logo that says fizz-buzz in colored letters"
+            fill
+
+          />
+        </div>
+        <div className="instructions">
+          <h1>Fizz-Buzz Kata</h1>
+          <p>Print the numbers in a selected range (min 1 - max 100) and that increments
+            by the given step amount. For multiples of three print “Fizz” instead of the number and for the
+            multiples of five print “Buzz”. For numbers which are multiples of both three and
+            five print “FizzBuzz “.</p>
+        </div>
+      </header>
+
+      <main >
+        <div>
+          <div className="sliderContainer">
+            <label id="rs">Select Range:</label>
+            <RangeSlider
+              id='rs'
+              min={1}
+              max={100}
+              step={step}
+              onInput={onSliderInput}
+              defaultValue={[1, 25]}
+              value={[lowerValue, upperValue]}
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+          </div>
+
+          <div className="step-container">
+            <label id="step">Select Step:</label>
+            <select id="step" onChange={onStepInput} value={step}>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="output-container">
+          <label id="output">Output:</label>
+          <div className="results">
+            <p>
+              {!fizzBuzz &&
+                Array.from(
+                  { length: (upperValue - lowerValue) / step + 1 },
+                  (value, index) => lowerValue + index * step
+                ).join(", ")
+              }
+              </p>
+              <p>
+                {fizzBuzz &&
+                  fizzBuzz &&
+                  fizzBuzzIt(Array.from(
+                    { length: (upperValue - lowerValue) / step + 1 },
+                    (value, index) => lowerValue + index * step
+                  ))
+                }
+              </p>
+          </div>
+        </div>
+
+        <div className="controls-container">
+          <button onClick={toggleFizzBuzz}>
+            {!fizzBuzz && 'Apply FizzBuzz'
+            }
+            {fizzBuzz && 'Remove FizzBuzz'}
+            </button>
+          
+          <button onClick={resetAll}>Reset All</button>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer >
+            <p>a kata by fern-leigh.dev</p>
       </footer>
     </div>
   );
