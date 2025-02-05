@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   // basePath: "/fizzbuzz",
   // output: "export",
   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
-  assetPrefix: '/fizzbuzz/',
+  assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
 };
 
 export default nextConfig;
