@@ -58,7 +58,7 @@ export default function Home() {
       <header>
         <div className="logo">
           <Image
-            src="/fizzbuzz/logo2.png"
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo2.png`}
             alt="logo that says fizz-buzz in colored letters"
             fill
 
